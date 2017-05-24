@@ -2,12 +2,12 @@
 lock '3.7.2'
 
 set :application, 'drugAdmin'
-set :repo_url, 'git@github.com:fraz017/projects.git'
+set :repo_url, 'git@github.com:fraz017/drugAdmin.git'
 
 set :branch, 'master'
 
 set :deploy_to, '/www/sites/drugAdmin'
-set :scm, :git
+# set :scm, :git
 
 set :format, :pretty
 set :log_level, :debug
