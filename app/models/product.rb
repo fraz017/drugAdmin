@@ -5,7 +5,7 @@ class Product < ApplicationRecord
 
   def as_json(options = { })
     h = super(options.merge({ except: [:created_at, :updated_at, :image_file_size, :image_content_type, :image_file_name, :image_updated_at] }))
-    h[:image]   = "suavistech.com:3001/"self.image.url
+    h[:image]   = "suavistech.com:3001/+"self.image.url
     h
   end
 end
