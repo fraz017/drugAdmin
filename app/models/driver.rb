@@ -3,4 +3,9 @@ class Driver < ApplicationRecord
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable,
          :recoverable, :rememberable, :trackable, :validatable
+
+  def as_json(options = {})
+    h = super(options.merge({ except: [:created_at, :updated_at] }))
+    h
+  end
 end
