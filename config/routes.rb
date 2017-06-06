@@ -7,6 +7,14 @@ Rails.application.routes.draw do
         post :register, :to => 'users/registrations#create'
       end
 
+      namespace :users do 
+        resources :orders, only: [:index, :create, :show]
+      end
+
+      namespace :drivers do 
+        resources :orders, only: [:index, :update, :show]
+      end
+
       devise_scope :driver do
         post :signin, :to => 'drivers/sessions#create'
         delete :signout, :to => 'drivers/sessions#destroy'
@@ -15,8 +23,8 @@ Rails.application.routes.draw do
     end
   end
 
-  # devise_for :drivers
-  # devise_for :users
+  devise_for :drivers
+  devise_for :users
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html

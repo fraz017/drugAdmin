@@ -8,4 +8,6 @@ class User < ApplicationRecord
     h = super(options.merge({ except: [:created_at, :updated_at] }))
     h
   end
+
+  has_many :orders
 end

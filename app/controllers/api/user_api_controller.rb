@@ -16,7 +16,6 @@ class Api::UserApiController < ApplicationController
   private
 
   def authenticate_with_auth_token(auth_token)
-
     user = User.where(access_token: auth_token).first
     if user && Devise.secure_compare(user.access_token, auth_token)
       sign_in(user, store: false)
