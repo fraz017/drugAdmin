@@ -47,21 +47,43 @@ permit_params :driver_id
 		    post.status.to_s.humanize
 		  end
       row :order_number
+      row "Prescription" do |item|
+		    link_to(image_tag(item.prescription.url, size: "50x50"),item.prescription.url, target: "_blank")
+		  end
+		  row "Photo ID" do |item|
+		    link_to(image_tag(item.photo.url, size: "50x50"),item.photo.url, target: "_blank")
+		  end
     end
     panel "Order Items" do
       table_for order.product_orders do
-			  column "Name" do |post|
-			    post.product.name
+			  column "Name" do |item|
+			    item.product.name
 			  end
-			  column "Unit Price" do |post|
-			    post.product.price
+			  column "Unit Price" do |item|
+			    item.product.price
 			  end
 			  column :quantity
-			  column "Sub Total" do |post|
-			    post.price
+			  column "Sub Total" do |item|
+			    item.price
 			  end
-			  column "Unit Price" do |post|
-			    image_tag(post.product.image.url, size: "50x50")
+			  column "Unit Price" do |item|
+			    image_tag(item.product.image.url, size: "50x50")
+			  end
+      end
+    end
+    panel "User" do
+      table_for order.user do
+			  column "First Name" do |user|
+			    user.first_name
+			  end
+			  column "Last Name" do |user|
+			    user.last_name
+			  end
+			  column "Email" do |user|
+			    user.email
+			  end
+			  column "Phone" do |user|
+			    user.phone_number
 			  end
       end
     end

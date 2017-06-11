@@ -1,4 +1,7 @@
 class Order < ApplicationRecord
+
+  # BASE_URL = "http://173.255.221.38"
+  BASE_URL = "http://localhost:3000"
   belongs_to :user
   belongs_to :driver
 
@@ -13,10 +16,21 @@ class Order < ApplicationRecord
 
   accepts_nested_attributes_for :product_orders
 
+  has_attached_file :prescription, default_url: "/assets/missing.png"
+  validates_attachment_content_type :prescription, content_type: /\Aimage\/.*\z/
+
+  has_attached_file :photo, default_url: "/assets/missing.png"
+  validates_attachment_content_type :photo, content_type: /\Aimage\/.*\z/
+
+  validates_attachment_presence :prescription
+  validates_attachment_presence :photo
+
   def as_json(options = { })
-    h = super(options.merge({ except: [:created_at, :updated_at, :status_cd, :user_id, :driver_id] }))
-    h[:status]   = self.status.to_s.humanize
+    h = super(options.merge({ except: [:created_at, :updated_at, :status_cd, :user_id, :driver_id, :photo_file_name, :photo_content_type, :photo_file_size, :photo_updated_at, :prescription_file_name, :prescription_content_type, :prescription_file_size, :prescription_updated_at] }))
+    h[:status]   = self.status.to_s.humanize.titleize
     h[:items] = self.product_orders
+    h[:prescription]   = BASE_URL+self.prescription.url
+    h[:image]   = BASE_URL+self.photo.url
     h
   end
 

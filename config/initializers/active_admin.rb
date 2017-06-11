@@ -1,3 +1,16 @@
+class MyFooter < ActiveAdmin::Component
+  def build
+    super(id: "footer")
+    para ""
+  end
+end
+
+module ActiveAdmin::Devise::Controller
+  def root_path
+    "/"  #add your logic
+  end
+end
+
 ActiveAdmin.setup do |config|
   # == Site Title
   #
@@ -5,6 +18,8 @@ ActiveAdmin.setup do |config|
   # for each of the active admin pages.
   #
   config.site_title = "Smile House SF"
+
+  config.view_factory.footer = MyFooter
 
   # Set the link url for the title. For example, to take
   # users to your main site. Defaults to no link.
@@ -269,4 +284,14 @@ ActiveAdmin.setup do |config|
   # of those filters by default here.
   #
   # config.include_default_association_filters = true
+  config.root_to = 'admin/orders#index'
+
+  config.namespace :admin do |admin|
+    admin.build_menu do |menu|
+      menu.add :label => 'Drivers' do |submenu|
+        submenu.add :label => 'Manage Drivers', :url => "/admin/drivers"
+        submenu.add :label => 'Assign Quantity', :url => "#"
+      end
+    end
+  end
 end

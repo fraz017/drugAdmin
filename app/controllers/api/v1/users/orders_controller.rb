@@ -8,8 +8,10 @@ class Api::V1::Users::OrdersController < Api::UserApiController
 	end
 
 	def create
+		order_params = params[:order].permit!
 		permitted = params.require(:product_orders).map { |m| m.permit(:product_id, :quantity) }
-		order = Order.new(user: current_user)
+		order = Order.new(order_params)
+		order.user = current_user
 		order.product_orders.build(permitted)
 		if order.save
 			response = {success: true, data: order, errors: []}
