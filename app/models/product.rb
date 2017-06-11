@@ -1,7 +1,7 @@
 class Product < ApplicationRecord
 
-	# BASE_URL = "http://173.255.221.38"
-  BASE_URL = "http://localhost:3000"
+	BASE_URL = "http://173.255.221.38"
+  # BASE_URL = "http://localhost:3000"
 	validates_presence_of :price, :name
 	has_attached_file :image, default_url: "/assets/missing.png"
   validates_attachment_content_type :image, content_type: /\Aimage\/.*\z/

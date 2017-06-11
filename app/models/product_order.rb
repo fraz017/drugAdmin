@@ -1,6 +1,6 @@
 class ProductOrder < ApplicationRecord
-	# BASE_URL = "http://173.255.221.38"
-  BASE_URL = "http://localhost:3000"
+	BASE_URL = "http://173.255.221.38"
+  # BASE_URL = "http://localhost:3000"
   
   belongs_to :product
   belongs_to :order

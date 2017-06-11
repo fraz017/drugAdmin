@@ -1,7 +1,7 @@
 class Order < ApplicationRecord
 
-  # BASE_URL = "http://173.255.221.38"
-  BASE_URL = "http://localhost:3000"
+  BASE_URL = "http://173.255.221.38"
+  # BASE_URL = "http://localhost:3000"
   belongs_to :user
   belongs_to :driver
 
