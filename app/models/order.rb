@@ -12,7 +12,9 @@ class Order < ApplicationRecord
 
   as_enum :status, in_progress: 0, completed: 1
 
-  before_save :update_total
+  after_save :update_total
+
+  before_save :update_quantity
 
   accepts_nested_attributes_for :product_orders
 
@@ -42,6 +44,20 @@ class Order < ApplicationRecord
   def total
     p = product_orders.collect { |o| o.price.present? ? o.price : 0 }.sum
   	return p
+  end
+
+  def update_quantity
+    if driver.present?
+      product_orders.each do |p|
+        item = Item.where(product_id: p.product_id, driver_id: driver.id).first
+        if item.present? && !p.dealt
+          item.quantity = item.quantity - p.quantity
+          item.save
+          p.dealt = true
+          p.save
+        end
+      end
+    end
   end
 
   private

@@ -3,7 +3,7 @@ ActiveAdmin.register Order do
 # See permitted parameters documentation:
 # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
 #
-permit_params :driver_id
+permit_params :driver_id, :status_cd
 #
 # or
 #
@@ -32,7 +32,7 @@ permit_params :driver_id
 	    f.input :user_id, as: :select, collection: User.all.map{|u| [u.email, u.id]}
 	    f.input :driver_id, as: :select, collection: Driver.all.map{|u| [u.email, u.id]}
 	    f.input :total
-	    f.input :status
+	    f.input :status_cd, label: "Status", :as => :select, :collection => Order.statuses.map { |k,v| [k.to_s.titleize, v] }
 	    f.input :order_number
 	  end
 	  f.actions
