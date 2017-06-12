@@ -286,12 +286,12 @@ ActiveAdmin.setup do |config|
   # config.include_default_association_filters = true
   config.root_to = 'admin/orders#index'
 
-  config.namespace :admin do |admin|
-    admin.build_menu do |menu|
-      menu.add :label => 'Drivers' do |submenu|
-        submenu.add :label => 'Manage Drivers', :url => "/admin/drivers"
-        submenu.add :label => 'Assign Quantity', :url => "#"
-      end
-    end
-  end
+  # config.namespace :admin do |admin|
+  #   admin.build_menu do |menu|
+  #     menu.add :label => 'Drivers' do |submenu|
+  #       submenu.add :label => 'Manage Drivers', :url => "/admin/drivers"
+  #       submenu.add :label => 'Assign Quantity', :url => "#"
+  #     end
+  #   end
+  # end
 end

@@ -3,7 +3,7 @@ ActiveAdmin.register Driver do
 	# See permitted parameters documentation:
 	# https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
 	#
-	permit_params :first_name, :last_name, :phone_number, :email, :password, :password_confirmation
+	permit_params :first_name, :last_name, :phone_number, :email, :password, :password_confirmation, items_attributes: [ :id, :product_id, :quantity, :_destroy ]
 	#
 	# or
 	#
@@ -37,6 +37,12 @@ ActiveAdmin.register Driver do
 	    f.input :password
 	    f.input :password_confirmation
 	  end
+	  f.inputs "Inventory" do
+      f.has_many :items, heading: "Assign Products and Quantity", new_record: 'Add New Product', allow_destroy: true do |d|
+        d.input :product, :as => :select, :multiple => false, :input_html => { :size => 1 }
+        d.input :quantity
+      end
+    end
 	  f.actions
 	end
 
@@ -47,6 +53,32 @@ ActiveAdmin.register Driver do
       row :phone_number
       row :email
     end
+
+    panel "Inventory" do
+      table_for driver.items do
+			  column "Product Name" do |item|
+			    item.product.name
+			  end
+			  column "Unit Price" do |item|
+			    item.product.price
+			  end
+			  column "Product Image" do |item|
+			    image_tag(item.product.image.url, size: "50x50")
+			  end
+			  column "Assigned Quantity" do |item|
+			    item.quantity
+			  end
+      end
+    end
   end
 
+  controller do
+	  def update
+	    if params[:driver][:password].blank? && params[:driver][:password_confirmation].blank?
+	      params[:driver].delete("password")
+	      params[:driver].delete("password_confirmation")
+	    end
+	    super
+		end
+	end	
 end

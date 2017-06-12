@@ -66,7 +66,7 @@ permit_params :driver_id
 			  column "Sub Total" do |item|
 			    item.price
 			  end
-			  column "Unit Price" do |item|
+			  column "Image" do |item|
 			    image_tag(item.product.image.url, size: "50x50")
 			  end
       end

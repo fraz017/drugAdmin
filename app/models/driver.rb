@@ -10,4 +10,7 @@ class Driver < ApplicationRecord
   end
 
   has_many :orders
+  has_many :items
+  validates_associated :items
+  accepts_nested_attributes_for :items, allow_destroy: true
 end

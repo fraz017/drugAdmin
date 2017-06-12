@@ -8,6 +8,7 @@ class Product < ApplicationRecord
 
   has_many :product_orders
   has_many :orders, through: :product_orders
+  has_many :items
 
   def as_json(options = { })
     h = super(options.merge({ except: [:created_at, :updated_at, :image_file_size, :image_content_type, :image_file_name, :image_updated_at] }))
