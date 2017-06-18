@@ -3,7 +3,7 @@ ActiveAdmin.register Order do
 # See permitted parameters documentation:
 # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
 #
-permit_params :driver_id, :status_cd
+permit_params :driver_id, :status_cd, product_orders_attributes: [ :id, :product_id, :quantity, :_destroy ], shipping_address_attributes: [:id, :street1, :street2, :city, :state, :zipcode, :country], billing_address_attributes: [:id, :street1, :street2, :city, :state, :zipcode, :country]
 #
 # or
 #
@@ -35,6 +35,34 @@ permit_params :driver_id, :status_cd
 	    f.input :status_cd, label: "Status", :as => :select, :collection => Order.statuses.map { |k,v| [k.to_s.titleize, v] }
 	    f.input :order_number
 	  end
+
+	  f.inputs "Shipping Address", for: [:shipping_address, f.object.shipping_address || ShippingAddress.new] do |d|
+    	d.input :street1
+    	d.input :street2
+    	d.input :city
+    	d.input :state
+    	d.input :zipcode
+    	d.input :country, :as => :string
+
+    	d.actions
+    end
+
+    f.inputs "Billing Address", for: [:billing_address, f.object.billing_address || BillingAddress.new] do |d|
+    	d.input :street1
+    	d.input :street2
+    	d.input :city
+    	d.input :state
+    	d.input :zipcode
+    	d.input :country, :as => :string
+
+    	d.actions
+    end
+	  
+  	f.has_many :product_orders, heading: "Add/Edit Products and Quantity", new_record: 'Add New Order Item', allow_destroy: true do |d|
+    	d.input :product, :as => :select, :multiple => false, :input_html => { :size => 1 }
+    	d.input :quantity
+    end
+
 	  f.actions
 	end
 
