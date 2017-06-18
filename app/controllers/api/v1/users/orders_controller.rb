@@ -8,11 +8,9 @@ class Api::V1::Users::OrdersController < Api::UserApiController
 	end
 
 	def create
-		order_params = params[:order].permit!
-		permitted = params.require(:product_orders).map { |m| m.permit(:product_id, :quantity) }
 		order = Order.new(order_params)
 		order.user = current_user
-		order.product_orders.build(permitted)
+		# order.product_orders.build(permitted)
 		if order.save
 			response = {success: true, data: order, errors: []}
 	    render status: 200, json: response
@@ -32,4 +30,12 @@ class Api::V1::Users::OrdersController < Api::UserApiController
 	    render status: 400, json: response
 		end
 	end
+
+	private
+
+  def order_params
+    params.require(:order).permit(:photo, :prescription, product_orders_attributes: [:id, :product_id, :quantity], 
+    	shipping_address_attributes: [:id, :street1, :street2, :city, :state, :zipcode, :country], 
+    	billing_address_attributes: [:id, :street1, :street2, :city, :state, :zipcode, :country])
+  end
 end

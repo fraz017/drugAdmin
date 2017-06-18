@@ -10,6 +10,13 @@ class Order < ApplicationRecord
   has_many :product_orders
   has_many :products, through: :product_orders
 
+  has_one :shipping_address
+  has_one :billing_address
+
+  validates_associated :product_orders
+  validates_presence_of :shipping_address
+  validates_presence_of :billing_address
+
   as_enum :status, in_progress: 0, completed: 1
 
   after_save :update_total
@@ -17,6 +24,8 @@ class Order < ApplicationRecord
   before_save :update_quantity
 
   accepts_nested_attributes_for :product_orders
+  accepts_nested_attributes_for :shipping_address
+  accepts_nested_attributes_for :billing_address
 
   has_attached_file :prescription, default_url: "/assets/missing.png"
   validates_attachment_content_type :prescription, content_type: /\Aimage\/.*\z/
@@ -31,6 +40,8 @@ class Order < ApplicationRecord
     h = super(options.merge({ except: [:created_at, :updated_at, :status_cd, :user_id, :driver_id, :photo_file_name, :photo_content_type, :photo_file_size, :photo_updated_at, :prescription_file_name, :prescription_content_type, :prescription_file_size, :prescription_updated_at] }))
     h[:status]   = self.status.to_s.humanize.titleize
     h[:items] = self.product_orders
+    h[:shipping_address] = self.shipping_address
+    h[:billing_address] = self.billing_address
     h[:prescription]   = BASE_URL+self.prescription.url
     h[:image]   = BASE_URL+self.photo.url
     h
