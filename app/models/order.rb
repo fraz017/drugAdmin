@@ -7,11 +7,11 @@ class Order < ApplicationRecord
 
   after_create :set_order_number
 
-  has_many :product_orders
+  has_many :product_orders, dependent: :destroy
   has_many :products, through: :product_orders
 
-  has_one :shipping_address
-  has_one :billing_address
+  has_one :shipping_address, dependent: :destroy
+  has_one :billing_address, dependent: :destroy
 
   validates_associated :product_orders
   validates_presence_of :shipping_address
