@@ -102,16 +102,16 @@ permit_params :driver_id, :status_cd, product_orders_attributes: [ :id, :product
     panel "User" do
       table_for order.user do
 			  column "First Name" do |user|
-			    user.first_name
+			    user.try(:first_name)
 			  end
 			  column "Last Name" do |user|
-			    user.last_name
+			    user.try(:last_name)
 			  end
 			  column "Email" do |user|
-			    user.email
+			    user.try(:email)
 			  end
 			  column "Phone" do |user|
-			    user.phone_number
+			    user.try(:phone_number)
 			  end
       end
     end
