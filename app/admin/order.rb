@@ -17,7 +17,9 @@ permit_params :driver_id, :status_cd, product_orders_attributes: [ :id, :product
 	  selectable_column
 	  column :id
 	  column :order_number
-	  column :total
+	  column "Order Total" do |post|
+	    post.total
+	  end
 	  column :user
 	  column :driver
 	  column "Status" do |post|
@@ -31,7 +33,7 @@ permit_params :driver_id, :status_cd, product_orders_attributes: [ :id, :product
 		f.inputs 'Order' do
 	    f.input :user_id, as: :select, collection: User.all.map{|u| [u.email, u.id]}
 	    f.input :driver_id, as: :select, collection: Driver.all.map{|u| [u.email, u.id]}
-	    f.input :total
+	    f.input :total, label: "Order Total"
 	    f.input :status_cd, label: "Status", :as => :select, :collection => Order.statuses.map { |k,v| [k.to_s.titleize, v] }
 	    f.input :order_number
 	  end
@@ -70,7 +72,9 @@ permit_params :driver_id, :status_cd, product_orders_attributes: [ :id, :product
     attributes_table do
       row :user
       row :driver
-      row :total
+      row "Order Total" do |post|
+		    post.total
+		  end
       row "Status" do |post|
 		    post.status.to_s.humanize
 		  end
