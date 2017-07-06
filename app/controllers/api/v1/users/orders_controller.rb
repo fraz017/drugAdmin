@@ -31,6 +31,27 @@ class Api::V1::Users::OrdersController < Api::UserApiController
 		end
 	end
 
+	def last_address
+		order = current_user.orders.last
+		if order.present?
+			data = {
+				address: {
+		      street1: order.try(:shipping_address).try(:street1),
+		      street2: order.try(:shipping_address).try(:street2),
+		      city: order.try(:shipping_address).try(:city),
+		      state: order.try(:shipping_address).try(:state),
+		      zipcode: order.try(:shipping_address).try(:zip),
+		      country: order.try(:shipping_address).try(:country)
+		    }
+		  }
+	    response = {success: true, data: data, errors: []}
+	    render status: 200, json: response
+	  else
+	  	response = {success: true, data: [], errors: []}
+	    render status: 200, json: response
+	  end  
+	end
+
 	private
 
   def order_params

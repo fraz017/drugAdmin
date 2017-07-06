@@ -20,6 +20,7 @@ Rails.application.routes.draw do
         delete :signout, :to => 'drivers/sessions#destroy'
       end
     	resources :products, only: [:index, :show]
+      get "/last-address" => "users/orders#last_address"
     end
   end
   match '/admin' => redirect('/'), via: :get

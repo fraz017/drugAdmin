@@ -3,7 +3,7 @@ ActiveAdmin.register Order do
 # See permitted parameters documentation:
 # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
 #
-permit_params :driver_id, :status_cd, product_orders_attributes: [ :id, :product_id, :quantity, :_destroy ], shipping_address_attributes: [:id, :street1, :street2, :city, :state, :zipcode, :country], billing_address_attributes: [:id, :street1, :street2, :city, :state, :zipcode, :country]
+permit_params :driver_id, :status_cd, :user_id, :prescription, :photo, product_orders_attributes: [ :id, :product_id, :quantity, :_destroy ], shipping_address_attributes: [:id, :street1, :street2, :city, :state, :zipcode, :country], billing_address_attributes: [:id, :street1, :street2, :city, :state, :zipcode, :country]
 #
 # or
 #
@@ -33,9 +33,9 @@ permit_params :driver_id, :status_cd, product_orders_attributes: [ :id, :product
 		f.inputs 'Order' do
 	    f.input :user_id, as: :select, collection: User.all.map{|u| [u.email, u.id]}
 	    f.input :driver_id, as: :select, collection: Driver.all.map{|u| [u.email, u.id]}
-	    f.input :total, label: "Order Total"
 	    f.input :status_cd, label: "Status", :as => :select, :collection => Order.statuses.map { |k,v| [k.to_s.titleize, v] }
-	    f.input :order_number
+	    f.input :prescription, as: :file
+	    f.input :photo, as: :file
 	  end
 
 	  f.inputs "Shipping Address", for: [:shipping_address, f.object.shipping_address || ShippingAddress.new] do |d|
@@ -100,6 +100,28 @@ permit_params :driver_id, :status_cd, product_orders_attributes: [ :id, :product
 			  end
 			  column "Image" do |item|
 			    image_tag(item.product.image.url, size: "50x50")
+			  end
+      end
+    end
+    panel "Shipping Address" do
+      table_for order.shipping_address do
+			  column "Street 1" do |item|
+			    item.street1
+			  end
+			  column "Street 2" do |item|
+			    item.street2
+			  end
+			  column "City" do |item|
+			    item.city
+			  end
+			  column "State" do |item|
+			    item.state
+			  end
+			  column "Zipcode" do |item|
+			    item.zipcode
+			  end
+			  column "Country" do |item|
+			    item.country
 			  end
       end
     end
