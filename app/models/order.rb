@@ -11,11 +11,11 @@ class Order < ApplicationRecord
   has_many :products, through: :product_orders
 
   has_one :shipping_address, dependent: :destroy
-  has_one :billing_address, dependent: :destroy
+  # has_one :billing_address, dependent: :destroy
 
   validates_associated :product_orders
   validates_presence_of :shipping_address
-  validates_presence_of :billing_address
+  # validates_presence_of :billing_address
 
   as_enum :status, in_progress: 0, completed: 1
 
@@ -25,7 +25,7 @@ class Order < ApplicationRecord
 
   accepts_nested_attributes_for :product_orders
   accepts_nested_attributes_for :shipping_address
-  accepts_nested_attributes_for :billing_address
+  # accepts_nested_attributes_for :billing_address
 
   has_attached_file :prescription, default_url: "/assets/missing.png"
   validates_attachment_content_type :prescription, content_type: /\Aimage\/.*\z/
@@ -41,7 +41,7 @@ class Order < ApplicationRecord
     h[:status]   = self.status.to_s.humanize.titleize
     h[:items] = self.product_orders
     h[:shipping_address] = self.shipping_address
-    h[:billing_address] = self.billing_address
+    # h[:billing_address] = self.billing_address
     h[:prescription]   = BASE_URL+self.prescription.url
     h[:image]   = BASE_URL+self.photo.url
     h

@@ -1,5 +1,5 @@
 class BillingAddress < ApplicationRecord
-	belongs_to :order
+	# belongs_to :order
 	def as_json(options = {})
     h = super(options.merge({ except: [:created_at, :updated_at, :order_id, :id] }))
     h
