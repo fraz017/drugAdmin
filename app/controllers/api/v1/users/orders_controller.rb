@@ -40,7 +40,7 @@ class Api::V1::Users::OrdersController < Api::UserApiController
 		      street2: order.try(:shipping_address).try(:street2),
 		      city: order.try(:shipping_address).try(:city),
 		      state: order.try(:shipping_address).try(:state),
-		      zipcode: order.try(:shipping_address).try(:zip),
+		      zipcode: order.try(:shipping_address).try(:zipcode),
 		      country: order.try(:shipping_address).try(:country)
 		    }
 		  }
