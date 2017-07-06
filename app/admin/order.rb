@@ -49,16 +49,16 @@ permit_params :driver_id, :status_cd, product_orders_attributes: [ :id, :product
     	d.actions
     end
 
-    f.inputs "Billing Address", for: [:billing_address, f.object.billing_address || BillingAddress.new] do |d|
-    	d.input :street1
-    	d.input :street2
-    	d.input :city
-    	d.input :state
-    	d.input :zipcode
-    	d.input :country, :as => :string
+    # f.inputs "Billing Address", for: [:billing_address, f.object.billing_address || BillingAddress.new] do |d|
+    # 	d.input :street1
+    # 	d.input :street2
+    # 	d.input :city
+    # 	d.input :state
+    # 	d.input :zipcode
+    # 	d.input :country, :as => :string
 
-    	d.actions
-    end
+    # 	d.actions
+    # end
 	  
   	f.has_many :product_orders, heading: "Add/Edit Products and Quantity", new_record: 'Add New Order Item', allow_destroy: true do |d|
     	d.input :product, :as => :select, :multiple => false, :input_html => { :size => 1 }
