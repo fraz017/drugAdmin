@@ -4,7 +4,7 @@ ActiveAdmin.register User do
 # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
 #
 # permit_params :list, :of, :attributes, :on, :model
-permit_params :first_name, :last_name, :phone_number, :email
+permit_params :first_name, :last_name, :phone_number, :email, :password, :password_confirmation
 #
 # or
 #
@@ -30,7 +30,7 @@ permit_params :first_name, :last_name, :phone_number, :email
 
 
 	form do |f|
-		f.inputs 'Driver' do
+		f.inputs 'User' do
 	    f.input :first_name
 	    f.input :last_name
 	    f.input :phone_number
@@ -50,4 +50,13 @@ permit_params :first_name, :last_name, :phone_number, :email
     end
   end
 
+ 	controller do
+	  def update
+	    if params[:user][:password].blank? && params[:user][:password_confirmation].blank?
+	      params[:user].delete("password")
+	      params[:user].delete("password_confirmation")
+	    end
+	    super
+		end
+	end
 end

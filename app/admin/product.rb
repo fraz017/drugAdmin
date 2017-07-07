@@ -22,7 +22,7 @@ ActiveAdmin.register Product do
 	  column :price
 	  column :quantity
 	  column "Image" do |product|
-		  image_tag(product.image.url, size: "50x50")
+		  link_to(image_tag(product.image.url, size: "50x50"),product.image.url, target: "_blank")
 		end
 		actions
 	end
@@ -45,7 +45,7 @@ ActiveAdmin.register Product do
       row :price
       row :quantity
       row :image do
-        image_tag(d.image.url, size: "200x200")
+      	link_to(image_tag(d.image.url, size: "200x200"),d.image.url, target: "_blank")
       end
       row :description
       row :ingredients
