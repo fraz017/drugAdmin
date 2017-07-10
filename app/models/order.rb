@@ -37,7 +37,7 @@ class Order < ApplicationRecord
   validates_attachment_presence :photo
 
   def as_json(options = { })
-    h = super(options.merge({ except: [:created_at, :updated_at, :status_cd, :user_id, :driver_id, :photo_file_name, :photo_content_type, :photo_file_size, :photo_updated_at, :prescription_file_name, :prescription_content_type, :prescription_file_size, :prescription_updated_at] }))
+    h = super(options.merge({ except: [:created_at, :updated_at, :status_cd, :user_id, :driver_id, :photo_file_name, :photo_content_type, :photo_file_size, :photo_updated_at, :prescription_file_name, :prescription_content_type, :prescription_file_size, :prescription_updated_at, :dealt] }))
     h[:status]   = self.status.to_s.humanize.titleize
     h[:items] = self.product_orders
     h[:shipping_address] = self.shipping_address
